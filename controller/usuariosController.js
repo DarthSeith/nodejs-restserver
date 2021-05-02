@@ -5,7 +5,8 @@ const usuarioGet = (req, res = response) => {
 };
 
 const usuarioPost = (req, res = response) => {
-  res.json({ msg: "Post api desde Controlador" });
+  const { nombre, edad } = req.body;
+  res.json({ msg: "Post api desde Controlador", nombre, edad });
 };
 
 const usuarioPut = (req, res = response) => {

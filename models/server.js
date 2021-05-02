@@ -6,12 +6,12 @@ class Server {
     this.app = express();
     // con el require dotenv y el archivo .env recuperar el puerto
     this.port = process.env.PORT;
-    this.usuarioPath=process.env.USUARIO_PATH;
+    this.usuarioPath = process.env.USUARIO_PATH;
+
     // Middlewares, para
     this.middlewares();
     //rutas de la aplicacion
     this.routes();
-    console.log(this.usuarioPath);
   }
 
   middlewares() {
@@ -19,10 +19,13 @@ class Server {
     //ya que puede hacer una lista blanca, etc
     this.app.use(cors());
 
+    // Lectura y pasero del body se tiene que poner si o si estoy
+    this.app.use(express.json());
+
     //directorio publico
     this.app.use(express.static("public"));
   }
-  routes() { 
+  routes() {
     //configurar las rutas para usuario
     this.app.use(this.usuarioPath, require("../routes/usuariosRoutes"));
   }
