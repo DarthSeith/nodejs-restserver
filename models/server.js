@@ -6,10 +6,12 @@ class Server {
     this.app = express();
     // con el require dotenv y el archivo .env recuperar el puerto
     this.port = process.env.PORT;
+    this.usuarioPath=process.env.USUARIO_PATH;
     // Middlewares, para
     this.middlewares();
     //rutas de la aplicacion
     this.routes();
+    console.log(this.usuarioPath);
   }
 
   middlewares() {
@@ -20,24 +22,9 @@ class Server {
     //directorio publico
     this.app.use(express.static("public"));
   }
-  routes() {
-    //peticion get
-    this.app.get("/api", (req, res) => {
-      // res.status(403).json({ msg: "ERROR" }); // enviar con estatus
-      res.json({ msg: "get api" });
-    });
-    this.app.put("/api", (req, res) => {
-      res.json({ msg: "put api" });
-    });
-    this.app.post("/api", (req, res) => {
-      res.json({ msg: "post api" });
-    });
-    this.app.delete("/api", (req, res) => {
-      res.json({ msg: "delete api" });
-    });
-    this.app.patch("/api", (req, res) => {
-      res.json({ msg: "patch api" });
-    });
+  routes() { 
+    //configurar las rutas para usuario
+    this.app.use(this.usuarioPath, require("../routes/usuariosRoutes"));
   }
 
   listen() {
