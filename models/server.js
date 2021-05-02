@@ -12,13 +12,27 @@ class Server {
   }
 
   middlewares() {
-      //directorio publico
+    //directorio publico
     this.app.use(express.static("public"));
   }
   routes() {
+    //peticion get
     this.app.get("/api", (req, res) => {
-      res.send("Hola desde el server");
+      // res.status(403).json({ msg: "ERROR" }); // enviar con estatus
+      res.json({ msg: "get api" });
     });
+    this.app.put("/api", (req, res) => {
+      res.json({ msg: "put api" });
+    });
+    this.app.post("/api", (req, res) => {
+      res.json({ msg: "post api" });
+    });
+    this.app.delete("/api", (req, res) => {
+      res.json({ msg: "delete api" });
+    });
+    this.app.patch("/api", (req, res) => {
+        res.json({ msg: "patch api" });
+      });
   }
 
   listen() {
