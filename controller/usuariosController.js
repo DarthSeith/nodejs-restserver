@@ -1,7 +1,9 @@
 const { response } = require("express");
 
 const usuarioGet = (req, res = response) => {
-  res.json({ msg: "get api desde Controlador" });
+  const query = req.query;
+  const { q, nombre, limit = 10 } = req.query;
+  res.json({ msg: "get api desde Controlador", query, q, nombre, limit });
 };
 
 const usuarioPost = (req, res = response) => {
@@ -10,7 +12,8 @@ const usuarioPost = (req, res = response) => {
 };
 
 const usuarioPut = (req, res = response) => {
-  res.json({ msg: "Put api desde Controlador" });
+  const { id } = req.params;
+  res.json({ msg: "Put api desde Controlador", id: id });
 };
 
 const usuarioPatch = (req, res = response) => {

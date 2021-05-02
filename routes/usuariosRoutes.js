@@ -9,9 +9,10 @@ const {
 
 const router = Router();
 
-//peticion get
+//peticion get http://localhost:8080/api/usuarios?q=hola&nombre=rodrigo
 router.get("/", usuarioGet);
-router.put("/", usuarioPut);
+// peticion put http://localhost:8080/api/usuarios/10
+router.put('/:id', usuarioPut);
 router.post("/", usuarioPost);
 router.delete("/", usuarioDelete);
 router.patch("/", usuarioPatch);
