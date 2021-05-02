@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 class Server {
   constructor() {
@@ -12,6 +13,10 @@ class Server {
   }
 
   middlewares() {
+    // CORS ver en la pagina npm cors para ver su potencial
+    //ya que puede hacer una lista blanca, etc
+    this.app.use(cors());
+
     //directorio publico
     this.app.use(express.static("public"));
   }
@@ -31,8 +36,8 @@ class Server {
       res.json({ msg: "delete api" });
     });
     this.app.patch("/api", (req, res) => {
-        res.json({ msg: "patch api" });
-      });
+      res.json({ msg: "patch api" });
+    });
   }
 
   listen() {
