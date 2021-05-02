@@ -1,14 +1,7 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
 
-// con el require dotenv y el archivo .env recuperar el puerto
-const PORT = process.env.PORT;
-
-app.get("/", (req, res) => {
-  res.send("Hello Worlds");
-});
-
-app.listen(PORT, () => {
-  console.log(`servidor corriendo aca http://localhost:${PORT}`);
-});
+//llamamos a la clase que creamos
+const Server = require("./models/server");
+const server = new Server();
+//llamamos donde tiene que escuchar
+server.listen();
