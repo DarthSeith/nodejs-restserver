@@ -1,5 +1,6 @@
 const { response } = require("express");
 const Usuario = require("../models/usuarioModel");
+const bcryptjs = require("bcryptjs");
 
 const usuarioGet = (req, res = response) => {
   const query = req.query;
@@ -9,19 +10,24 @@ const usuarioGet = (req, res = response) => {
 
 const usuarioPost = async (req, res = response) => {
   const body = req.body;
-  const { nombre, edad } = req.body;
-
+  const { nombre, correo, password, rol } = req.body;
+  console.log(nombre, correo, password, rol);
   //se instancia el usuario modelo con mongoose
-  const usuarioModel = new Usuario(body);
+  //const usuarioModel = new Usuario(body);
+  const usuarioModel = new Usuario({ nombre, correo, password, rol });
+  // console.log("usuario:", usuarioModel);
 
-  //aca se grabar en mongo
+  //encriptar la contraseña
+
+  const salt = bcryptjs.genSaltSync();
+  usuarioModel.password = bcryptjs.hashSync(password, salt);
+
+  //guardar en mongo
   await usuarioModel.save();
 
   res.json({
     msg: "Post api desde Controlador",
-    nombre,
-    edad,
-    body,
+
     usuarioModel,
   });
 };
