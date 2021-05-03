@@ -8,6 +8,7 @@ const {
   usuarioPatch,
   usuarioPost,
 } = require("../controller/usuariosController");
+const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
 
@@ -20,7 +21,14 @@ router.put("/:id", usuarioPut);
 router.post(
   "/",
   [
-    check("correo", "El correo no es valido").isEmail()
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("password", "El password es obligatorio y mas de 6 letras").isLength({
+      min: 6,
+    }),
+    check("correo", "El correo no es valido").isEmail(),
+    check("rol", "No es un rol valido").isIn(["ADMIN_ROLE", "USER_ROLE"]),
+    //despues de todas las validaciones del check, revisa la que va a ejecutar los errores
+    validarCampos,
   ],
   usuarioPost
 );

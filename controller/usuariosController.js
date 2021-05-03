@@ -1,7 +1,7 @@
 const { response } = require("express");
 const Usuario = require("../models/usuarioModel");
 const bcryptjs = require("bcryptjs");
-const { validationResult } = require("express-validator");
+const { validarCampos } = require("../middlewares/validar-campos");
 
 const usuarioGet = (req, res = response) => {
   const query = req.query;
@@ -11,11 +11,6 @@ const usuarioGet = (req, res = response) => {
 
 const usuarioPost = async (req, res = response) => {
   
-  //para recuperar el error que valida con el express-validator
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json(errors);
-  }
 
   const body = req.body;
   const { nombre, correo, password, rol } = req.body;
