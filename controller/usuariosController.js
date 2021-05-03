@@ -1,4 +1,5 @@
 const { response } = require("express");
+const Usuario = require("../models/usuarioModel");
 
 const usuarioGet = (req, res = response) => {
   const query = req.query;
@@ -6,9 +7,23 @@ const usuarioGet = (req, res = response) => {
   res.json({ msg: "get api desde Controlador", query, q, nombre, limit });
 };
 
-const usuarioPost = (req, res = response) => {
+const usuarioPost = async (req, res = response) => {
+  const body = req.body;
   const { nombre, edad } = req.body;
-  res.json({ msg: "Post api desde Controlador", nombre, edad });
+
+  //se instancia el usuario modelo con mongoose
+  const usuarioModel = new Usuario(body);
+
+  //aca se grabar en mongo
+  await usuarioModel.save();
+
+  res.json({
+    msg: "Post api desde Controlador",
+    nombre,
+    edad,
+    body,
+    usuarioModel,
+  });
 };
 
 const usuarioPut = (req, res = response) => {
