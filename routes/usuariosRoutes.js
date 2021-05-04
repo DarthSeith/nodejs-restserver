@@ -9,7 +9,7 @@ const {
   usuarioPatch,
   usuarioPost,
 } = require("../controller/usuariosController");
-const { esRoleValido } = require("../helpers/db-validators");
+const { esRoleValido, existeEmail } = require("../helpers/db-validators");
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
@@ -27,7 +27,8 @@ router.post(
     check("password", "El password es obligatorio y mas de 6 letras").isLength({
       min: 6,
     }),
-    check("correo", "El correo no es valido").isEmail(),
+    // check("correo", "El correo no es valido").isEmail(),
+    check("correo").custom(existeEmail),
     //check("rol", "No es un rol valido").isIn(["ADMIN_ROLE", "USER_ROLE"]),
     //hacer una validacion con una coleccion de BD mongo
     check("rol").custom(esRoleValido),
