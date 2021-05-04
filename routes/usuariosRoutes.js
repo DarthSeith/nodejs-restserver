@@ -1,8 +1,6 @@
 const { Router } = require("express");
 // utilizar el express-validator
 const { check } = require("express-validator");
-// traer el modelo del rol de BD mongo
-const RoleModel = require("../models/roleModel");
 
 const {
   usuarioGet,
@@ -11,6 +9,7 @@ const {
   usuarioPatch,
   usuarioPost,
 } = require("../controller/usuariosController");
+const { esRoleValido } = require("../helpers/db-validators");
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
@@ -31,12 +30,7 @@ router.post(
     check("correo", "El correo no es valido").isEmail(),
     //check("rol", "No es un rol valido").isIn(["ADMIN_ROLE", "USER_ROLE"]),
     //hacer una validacion con una coleccion de BD mongo
-    check("rol").custom(async (rol = "") => {
-      const existeRol = await RoleModel.findOne({ rol });
-      if (!existeRol) {
-        throw new Error(`El rol '${rol}' no esta registrado en la BD`);
-      }
-    }),
+    check("rol").custom(esRoleValido),
     //despues de todas las validaciones del check, revisa la que va a ejecutar los errores
     validarCampos,
   ],

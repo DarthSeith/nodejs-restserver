@@ -20,7 +20,7 @@ const UsuarioSchema = Schema({
   rol: {
     type: String,
     require: [true, "El constraseña es obligatorio"],
-    enum: ["ADMIN_ROLE", "USER_ROLE"],
+    enum: ["ADMIN_ROLE", "USER_ROLE", "VENTA_ROLE"],
   },
   estado: {
     type: Boolean,
@@ -32,5 +32,16 @@ const UsuarioSchema = Schema({
     default: false,
   },
 });
+
+/**
+ * Sobreescribimos el toJSON para que no salga las variables
+ * __v, password
+ * @returns nuevoUsuario
+ *
+ */
+UsuarioSchema.methods.toJSON = function () {
+  const { __v, password, ...usuario } = this.toObject();
+  return usuario;
+};
 
 module.exports = model("Usuario", UsuarioSchema);
